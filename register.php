@@ -10,7 +10,7 @@
         <link rel="Stylesheet" href="css/register.css">
     </head> 
     <body> 
-        <div class ="container">
+        <div class ="container"> 
             <div class = "form-box">
                 <h1><font color="#01B3FF">REGISTRATION</font></h1>
                 <div class = "sub-word">

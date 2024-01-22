@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500&display=swap" rel="stylesheet">
     <link rel="Stylesheet" href="css/pricing_style.css">
         <title></title>
-    </head>  
+    </head>   
     <body>
         <div class="container">
             <h2><b><font style="font-family:inter">USER PRICING PLAN</font></b></h2>

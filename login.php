@@ -8,7 +8,7 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500&display=swap" rel="stylesheet">
         <link rel="Stylesheet" href="css/login.css">
-    </head> 
+    </head>  
     <body>
         <div class ="container"> 
             <div class = "form-box">
