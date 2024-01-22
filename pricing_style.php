@@ -11,7 +11,7 @@
         <title></title> 
     </head>   
     <body>
-        <div class="container">
+        <div class="container"> 
             <h2><b><font style="font-family:inter">USER PRICING PLAN</font></b></h2>
             <div class ="price-row">
                 <div class = "price-col">

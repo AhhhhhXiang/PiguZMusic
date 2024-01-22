@@ -16,7 +16,7 @@
                 <div class = "sub-word">
                     <h4><b><font style="color:#ffffff; text-align: center; font-weight: 300;"><br>First User? Don't worry, you can now create your own</font></b></h4>
                 </div>
-                    <div class = "input-box">
+                    <div class = "input-box"> 
                         <div class = "input-field">
                             <label><input type ="text" 
                                 placeholder="Username">
