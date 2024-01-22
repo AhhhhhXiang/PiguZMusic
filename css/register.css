@@ -63,7 +63,7 @@
     color: #05001E;
     padding: 15px 15px 15px 40px; 
 }
-
+ 
 .input-box .input-field input::placeholder{
     color: #000000;  
 }
