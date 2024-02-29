@@ -1,0 +1,532 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --sidebarWidth: 20%;
+    --mainFontType: 'Inter', sans-serif;
+}
+
+body {
+    font-family: var(--mainFontType);
+}
+
+p {
+    margin-bottom: 0 !important;
+}
+
+/* playlist page */
+
+#main_wrapper {
+    max-width: 100vw;
+    min-height: 100vh;
+    background: #060028;
+}
+
+/*SideBar*/
+
+.sidebar_wrapper {
+    overflow: hidden;
+    padding: 80px 20px;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background: #05001E;
+    width: var(--sidebarWidth);
+    z-index: 10000;
+}
+
+.sidebar_menu {
+    width: fit-content;
+    margin: auto;
+}
+
+.sidebar_menu ul li {
+    font-size: 21px;
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-bottom: 15px;
+    color: #fff;
+}
+
+.sidebar_menu ul li i {
+    margin-right: 10px;
+}
+
+.sidebar_wrapper hr {
+    border-color: #fff;
+    border-width: 2px;
+    opacity: 1;
+}
+
+.pop_box {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.pop_num {
+    color: #fff;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.pop_img {
+    max-width: 100px;
+}
+
+.pop_state {
+    min-width: 15px;
+    color: #fff;
+}
+
+/* top bar - Search Bar */
+.top_bar {
+    display: flex;
+    align-items: center;
+    height: fit-content;
+    width: calc(100% - var(--sidebarWidth));
+    justify-content: space-between;
+    padding: 30px 60px;
+    background: #060028;
+    margin-left: auto;
+}
+
+.search_wrapper input {
+    height: 30px;
+    border-radius: 50px;
+    border-style: none;
+    margin-right: 20px;
+}
+
+.search_wrapper i {
+    font-size: 20px;
+}
+
+/* top bar - Profile */
+.profile_box {
+    position: relative;
+    overflow: hidden;
+    width: 50px;
+    padding-top: 100%;
+    border-radius: 50%;
+}
+
+.profile_box img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Content */
+.content_wrapper {
+    width: calc(100% - var(--sidebarWidth));
+    height: auto;
+    margin-left: var(--sidebarWidth);
+}
+
+.main_content {
+    padding: 50px;
+}
+
+/* Player */
+.player_wrapper {
+    max-height: 100px !important;
+    background: #8F8F8F;
+    width: calc(100% - var(--sidebarWidth));
+    margin-left: auto;
+}
+
+.player_bar {
+    padding: 20px;
+}
+
+.player_main {
+    padding: 0px 50px !important;
+}
+
+.player_lower {
+    display: flex;
+    justify-content: space-between;
+    color: #fff;
+    padding: 10px 10px 0px;
+}
+
+.player_control i {
+    padding: 0px 20px;
+    font-size: 18px;
+}
+
+.time_text {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.slider_bar {
+    width: 100%;
+    height: 10px;
+    background: #fff;
+    border-radius: 30px;
+}
+
+.player_col {
+    display: flex;
+    align-items: center;
+}
+
+.track_info p {
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.track_img {
+    position: relative;
+    width: 60px;
+    padding-top: 60px;
+    overflow: hidden;
+    margin-right: 20px;
+}
+
+.track_img img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+
+
+/*HomePage*/
+
+/*Main Content*/
+.home-title{
+    display: inline-block;
+    padding: 0;
+    margin: auto;
+}
+
+.align-item-right{
+    margin-left: 0px;
+}
+
+
+.align-item-right {
+    margin-left: 0px;
+}
+
+.album-boxes {
+    display: inline;
+}
+
+.album-boxes h1 {
+    color: #ffffff; /* Set the color to white */
+}
+
+.album-boxes h5 {
+    color: #ffffff; /* Set the color to white */
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(4, 0fr); /* Set the number of columns as per your requirement */
+    gap: 32px; /* Adjust the gap between items */
+    margin: 0 auto;
+}
+
+    /*MEDIUM IMAGE*/
+.size_of_img {
+    position: relative;
+    width: 200px;
+    padding-top: 50px;
+    overflow: hidden;
+    margin-right: 45px;
+    cursor: pointer;
+}
+
+.main_img {
+    max-width: 200px;
+}
+
+   /*BIG IMAGE*/
+.size_of_img2 {
+    position: relative;
+    width: 303px;
+    padding-top: 50px;
+    overflow: hidden;
+    margin-right: 45px;
+    cursor: pointer;
+}
+
+.main_img2 {
+    max-width: 303px;
+}
+
+
+/*CIRCLE IMAGE*/
+.size_of_img3 {
+    position: relative;
+    width: 200px;
+    padding-top: 50px;
+    overflow: hidden;
+    margin-right: 45px;
+    cursor: pointer;
+}
+
+.main_img3 {
+    max-width: 200px;
+    border-radius: 50%;
+}
+
+.grid-item {
+    text-align: center;
+    flex-direction: column;
+    align-items: center;
+    display: flex;
+}
+
+
+.align-info-to-center {
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+    color: #ffffff;
+    margin-right: 45px;
+    /* Adjust margin to separate space*/
+    margin-top: 15px;
+}
+
+
+.align-info-to-center p {
+    margin: 0px; /* Remove default margin */
+    white-space: nowrap; /* Make words stick together */
+}
+
+.align-info-to-center .track_name,
+.align-info-to-center .tract_artist,
+.align-info-to-center .track_category {
+    margin: 0px; /* Adjust margin between individual elements */
+}
+
+/*Slider*/
+.slider-container {
+    position: relative;
+    overflow: hidden;
+}
+
+.grid-container {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+/*the section for arrow navigation*/
+/*depending on parts (new album.etc)*/
+/* Add styles for prev-btn, next-btn, and view-more-btn as needed */
+.prev-btn,
+.next-btn{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    padding: 6px 15px;
+    cursor: pointer;
+}
+
+.prev-btn, .next-btn {
+    width: 35px;
+}
+
+.prev-btn {
+    left: 0;
+}
+
+.next-btn {
+    right: 0;
+}
+
+.view-more-btn {
+    left: 84%;
+    top: 0%;
+    background-color: #3498db;
+    transform: translateX(60%);
+}
+
+.view-more-btn {
+    color: #ffffff;
+    position: absolute;
+    border-radius: 50px;
+    padding: 5px 10px;
+}
+
+/*album section*/
+#new-album-container {
+    display: flex;
+    transform: translateX(0px);
+}
+
+.album-prev-btn,
+.album-next-btn,
+.album-view-more-btn
+{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    padding: 6px 11px;
+    cursor: pointer;
+}
+
+.album-prev-btn 
+{
+    width: 35px;
+}
+
+
+.album-prev-btn,
+.album-next-btn
+{
+    display: inline-block;
+}
+
+.album-prev-btn
+{
+    left: 0;
+}
+
+.album-next-btn
+{
+    right: 0;
+}
+
+.album-view-more-btn
+{
+    left: 90%;
+    top: 0%;
+    background-color: #3498db;
+    transform: translateX(-6%);
+    color: #ffffff;
+    position: absolute;
+    border-radius: 50px;
+    padding: 5px 10px;
+}
+
+/*Song Section*/
+#new-song-container {
+    display: flex;
+    transform: translateX(0px);
+}
+
+
+.song-prev-btn,
+.song-next-btn,
+.song-view-more-btn
+{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    padding: 6px 11px;
+    cursor: pointer;
+}
+
+.song-prev-btn 
+{
+    width: 35px;
+}
+
+
+.song-prev-btn,
+.song-next-btn
+{
+    display: inline-block;
+}
+
+.song-prev-btn
+{
+    left: 0;
+}
+
+.song-next-btn
+{
+    right: 0;
+}
+
+.song-view-more-btn
+{
+    left: 90%;
+    top: 0%;
+    background-color: #3498db;
+    transform: translateX(-6%);
+    color: #ffffff;
+    position: absolute;
+    border-radius: 50px;
+    padding: 5px 10px;
+}
+
+/*Artist Section*/
+#new-artist-container {
+    display: flex;
+    transform: translateX(0px);
+}
+
+
+.artist-prev-btn,
+.artist-next-btn,
+.artist-view-more-btn
+{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    padding: 6px 11px;
+    cursor: pointer;
+}
+
+.artist-prev-btn 
+{
+    width: 35px;
+}
+
+
+.artist-prev-btn,
+.artist-next-btn
+{
+    display: inline-block;
+}
+
+.artist-prev-btn
+{
+    left: 0;
+}
+
+.artist-next-btn
+{
+    right: 0;
+}
+
+.artist-view-more-btn
+{
+    left: 90%;
+    top: 0%;
+    background-color: #3498db;
+    transform: translateX(-6%);
+    color: #ffffff;
+    position: absolute;
+    border-radius: 50px;
+    padding: 5px 10px;
+}
