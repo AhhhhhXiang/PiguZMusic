@@ -29,12 +29,11 @@
                 <div class="col-3 player_sub">
                     <div class="player_col">
                         <div class="track_img">
-                            <img class="img-fluid" src="https://dummyimage.com/1200x900/" alt="">
+                            <img class="img-fluid" src="<?php echo $domain . $getImagePath?>\\defaultPlaylistThumbnail.png" alt="">
                         </div>
                         <div class="track_info">
-                            <div class="track_name"><p>No Track</p></div>
+                            <div class="track_name"><p>No Track Load</p></div>
                             <div class="track_artist"><p>Artist: <span></span></p></div>
-                            <div class="track_category"><p>Category: <span></span></p></div>
                         </div>
                     </div>
                 </div>
@@ -53,7 +52,6 @@
                             <div class="track_info d-flex flex-wrap">
                                 <div class="track_name w-100"><p>Poppin' Shukin'</p></div>
                                 <div class="track_artist w-50"><p>Artist: <span>Sample</span></p></div>
-                                <div class="track_category w-50"><p>Category: <span>J-POP</span></p></div>
                             </div>
                             <div class="track_progress_bar">
                                 <div class="time_group">

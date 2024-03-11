@@ -219,16 +219,22 @@ require_once 'includes/config.php';
 
                         function showTracks(track, playlistId, index, arr)
                         {
+                            var imgPath = "<?php echo $domain . $getImagePath?>" + "\\" + track.track.thumbnail_path;
+                            var trackPath = "<?php echo $domain . $getTrackPath?>" + "\\" + track.track.music_path;
+                            var artistName = "Artist"
+                            
+                            console.log(playlistId);
+                            loadMusic(index, imgPath, trackPath, track.track_id, track.track.name, artistName)
                             var trackBox = '<div class="track_box">' +
                                                 '<div class="track_img_wrapper">' +
-                                                    '<img class="img-fluid" src="<?php echo $domain . $getImagePath ?>'+ "\\" + arr[index].track.thumbnail_path +'" alt="">' +
+                                                    '<img class="img-fluid" src="'+ imgPath +'" alt="">' +
                                                 '</div>' +
                                                 '<div class="track_info">' +
                                                     '<div class="track_title">' + arr[index].track.name + '</div>' +
                                                     '<div class="track_artist-' + track.id + '"></div>' +
                                                 '</div>' +
-                                                '<div class="track_play">' +
-                                                    '<i class="fa fa-play" aria-hidden="true"></i>' +
+                                                '<div class="track_play")">' +
+                                                    '<i class="fa fa-play" style="cursor: pointer" aria-hidden="true" onclick="runMusic('+ index +')"></i>' +
                                                 '</div>' +
                                                 '<div class="track_ctrl">' +
                                                     '<i style="cursor:pointer" class="fa fa-trash" aria-hidden="true" onclick="deletePlaylistTrack(' + track.id +')"></i>' +
