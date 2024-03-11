@@ -1,6 +1,11 @@
 <?php
 
 require_once 'includes/config.php';
+if(!isset($_SESSION["user_id"]))
+{
+    header('Location: login_register.php');
+    exit;
+}
 
 ?>
 
@@ -34,11 +39,11 @@ require_once 'includes/config.php';
                                     <div class="col-lg-4">
                                         <div class="profile_card">
                                             <div class="user_img_wrapper">
-                                                <img class="img-fluid" src="https://dummyimage.com/1000x1000/" alt="">
+                                            <img class="img-fluid" src="<?php echo $domain . $getImagePath . "\\" . $user_info["path"] ?>" alt="">
                                             </div>
                                             <div class="user_info mt-3">
-                                                <h3>Admin Name</h3>
-                                                <p>admin.@gmail.com</p>
+                                                <h3><?php echo $user_info["username"] ?></h3>
+                                                <p><?php echo $user_info["email"] ?></p>
                                             </div>
                                         </div>
                                     </div>
@@ -51,7 +56,7 @@ require_once 'includes/config.php';
                                                     <div class="input-group">
                                                         <span class="input-group-btn">
                                                             <span class="btn btn-default btn-file">
-                                                                Change Photo <input type="file" id="imgInp">
+                                                                Change Photo <input type="file" id="imgInp" accept="image/png, image/gif, image/jpeg">
                                                             </span>
                                                         </span>
                                                         <input type="text" name="img" class="form-control" readonly>
@@ -61,13 +66,13 @@ require_once 'includes/config.php';
                                                 
                                                 <div class="form_block">
                                                     <label for="username">Username</label>
-                                                    <input type="text" id="username" name="username" placeholder="Enter name to update">
+                                                    <input type="text" id="username" name="username" placeholder="Enter name to update" value="<?php echo $user_info["username"] ?>">
                                                 </div>
                                                 <div class="form_block">
                                                     <label for="email">Email</label>
-                                                    <input type="email" id="email" name="email" placeholder="Enter email to update">
+                                                    <input type="email" id="email" name="email" placeholder="Enter email to update" value="<?php echo $user_info["email"] ?>" disabled>
                                                 </div>
-                                                <input type="submit" name="submit" value="Submit">
+                                                <button class="btn btn-light" type="submit">Submit</button>
                                             </form>
                                         </div>
                                     </div>
@@ -145,8 +150,33 @@ require_once 'includes/config.php';
 
                         $("#imgInp").change(function(){
                             readURL(this);
-                        });     
+                        });
                         
+                        $('button.btn.btn-light[type="submit"]').click(function() 
+                        {
+                            var formData = new FormData();
+                            formData.append('username', $('#username').val());
+
+                            if($('#imgInp')[0].files[0])
+                            {
+                                formData.append('thumbnail', $('#imgInp')[0].files[0]);
+                            }
+                            if(formData.get("username") != "")
+                            {
+                                $.ajax({
+                                    url:"./includes/userprofile.inc.php",
+                                    method:"POST",
+                                    data:formData,
+                                    contentType: false,
+                                    processData: false,
+                                    success:function(response)
+                                    {
+                                        location.reload();
+                                    }
+                                });
+                            }
+                        });
+                                                
                     });
                 </script>
             </div>
