@@ -1,3 +1,20 @@
+<?php
+
+require_once 'includes/dbh.inc.php';
+require_once 'includes/userprofile_model.inc.php';
+
+?>
+
+<?php 
+
+$user_info = get_user_info($pdo); 
+if($user_info["path"] == null || $user_info["path"] == "")
+{
+    $user_info["path"] = "defaultUserPath.jpg";
+}
+
+?>
+
 <div class="top_bar fixed-top">
     <div class="search_wrapper">
         <input type="search" id="search-input" size="50">
@@ -5,7 +22,7 @@
     </div>
     <div class="profile_wrapper dropdown">
         <div class="profile_box dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-            <img class="img-fluid" src="https://dummyimage.com/1300x2300/" alt="">
+            <img class="img-fluid" src="<?php echo $domain . $getImagePath . "\\" . $user_info["path"] ?>" alt="">
         </div>
         <ul class="dropdown-menu mt-1">
             <li><a href="/PiguZMusic/userProfile.php" class="dropdown-item">My Profile</a></li>
@@ -15,6 +32,7 @@
     </div>
 </div>
 
+<script src="./js/topspace.js"></script>
 <script>
     $(document).ready(function(){
         $("#logout-btn").click(function()
@@ -56,6 +74,7 @@
                         {
                             var trackResult = results["data"]["tracks"];
                             trackResult.forEach(showSearchTrack);
+                            showViewMoreTracks(1, results["data"]["totalPages"], input, '<?php echo $domain . $getImagePath ?>');
                         }
                         else
                         {  
@@ -107,7 +126,7 @@
             }
         });
 
-        function showSearchTrack(track, index, arr)
+        function showSearchTrack(track, index, arr, domain)
         {
             var imgPath = "<?php echo $domain . $getImagePath?>" + "\\" + arr[index].thumbnail_path;
             var trackPath = "<?php echo $domain . $getTrackPath?>" + "\\" + arr[index].music_path;

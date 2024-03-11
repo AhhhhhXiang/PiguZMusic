@@ -219,7 +219,7 @@ require_once 'includes/config.php';
 
                         function showTracks(track, playlistId, index, arr)
                         {
-                            var trackBox = '<div class="track_box">' +
+                            var trackBox = '<div class="track_box" id="track-box-'+index+'">' +
                                                 '<div class="track_img_wrapper">' +
                                                     '<img class="img-fluid" src="<?php echo $domain . $getImagePath ?>'+ "\\" + arr[index].track.thumbnail_path +'" alt="">' +
                                                 '</div>' +
