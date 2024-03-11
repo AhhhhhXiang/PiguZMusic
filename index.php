@@ -1,17 +1,11 @@
 <?php
 
 require_once 'includes/config.php';
-if(isset($_SESSION["user_id"]))
-{
-    header('Location: index.php');
-    exit;
-}
-else
+if(!isset($_SESSION["user_id"]))
 {
     header('Location: login_register.php');
     exit;
 }
-
 ?>
 
 <!DOCTYPE html>
