@@ -1,3 +1,20 @@
+<?php
+
+require_once 'includes/dbh.inc.php';
+require_once 'includes/userprofile_model.inc.php';
+
+?>
+
+<?php 
+
+$user_info = get_user_info($pdo); 
+if($user_info["path"] == null || $user_info["path"] == "")
+{
+    $user_info["path"] = "defaultUserPath.jpg";
+}
+
+?>
+
 <div class="top_bar fixed-top">
     <div class="search_wrapper">
         <input type="search" id="search-input" size="50">
@@ -5,7 +22,7 @@
     </div>
     <div class="profile_wrapper dropdown">
         <div class="profile_box dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-            <img class="img-fluid" src="https://dummyimage.com/1300x2300/" alt="">
+            <img class="img-fluid" src="<?php echo $domain . $getImagePath . "\\" . $user_info["path"] ?>" alt="">
         </div>
         <ul class="dropdown-menu mt-1">
             <li><a href="/PiguZMusic/userProfile.php" class="dropdown-item">My Profile</a></li>
