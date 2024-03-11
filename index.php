@@ -40,12 +40,41 @@ if(!isset($_SESSION["user_id"]))
                                 <div class="container">
                                     <div class="row">
                                         <div class="col-12">
-                                            <h1 class="big_title">Recently Added</h1>
+                                            <div class="title_bar">
+                                                <h1 class="big_title">New Track</h1>
+                                                <button class="sub-btn">Read More</button>
+                                            </div>
+                                            
                                             <div class="recently_slide"></div>
-                                            <script>
-                                                getDatas();
 
-                                                function getDatas() {
+                                            <!--                                             
+                                            <div class="modal fade" id="addtracktoplaylist" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered">
+                                                    <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Select a playlist</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form action="" id="addtoplaylist">
+                                                            <input id="trackid" name="trackid">
+                                                            <div class="cus_col"></div>
+                                                        </form>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-primary">Save changes</button>
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                            </div> -->
+
+
+                                            <script>
+                                                getTracks();
+                                                getAllPlaylist();
+
+                                                function getTracks() {
                                                     console.log("getDatas");
                                                     datas = [];
                                                     let xhr = new XMLHttpRequest();
@@ -56,33 +85,35 @@ if(!isset($_SESSION["user_id"]))
                                                         if (xhr.readyState === 4 && this.status == 200) {
                                                             data = xhr.responseText;
                                                             var lists = JSON.parse(data);
-                                                            console.log(lists);
 
                                                             lists["data"]["tracks"].forEach(showTracks);
-                                                            initSlickSlider();
+                                                            slickTrack();
                                                         }
                                                     };
                                                     xhr.send();
                                                 }
-
+                                                
                                                 function showTracks(track, index, arr)
                                                 {
                                                     var imgPath = "<?php echo $domain . $getImagePath?>" + "\\" + arr[index].thumbnail_path;
                                                     var trackPath = "<?php echo $domain . $getTrackPath?>" + "\\" + arr[index].music_path;
-                                                    var artist = "Artist";
+
+                                                    $(document).ready(function(){
+                                                        loadMusic(index, imgPath, trackPath, arr[index].id, arr[index].name, arr[index].artists[0].name);
+                                                    })  
                                                     
                                                     var htmlContent = '<div class="s_box">' +
-                                                                        '<div class="s_img_wrapper" onclick="loadMusic(' + "'" + arr[index].id + "'" 
-                                                                                + "," + "'" + imgPath + "'"
-                                                                                + "," + "'" + artist + "'" 
-                                                                                + "," + "'" + trackPath + "'" 
+                                                                        '<div class="s_img_wrapper" onclick="runMusic(' + index  
                                                                                 + ')">' +
                                                                             '<img src="' + imgPath + '" alt="">' +
-                                                                            '<i class="fa fa-play" aria-hidden="true"></i>' +
+                                                                            '<div class="floatBtn add_dropdown">' +
+                                                                                '<i class="fa fa-play" id="play" aria-hidden="true"></i>' +
+                                                                                //'<button type="button" data-bs-toggle="modal" data-bs-target="#addtracktoplaylist" data-trackid="'+ track.id +'" id="addToPlaylist")"><i class="fa fa-plus" aria-hidden="true"></i></button>' +
+                                                                            '</div>' +
                                                                         '</div>' +
                                                                         '<div class="text_wrapper text-center mt-3">' +
                                                                             '<div class="text_info">' + arr[index].name + '</div>' +
-                                                                            '<div class="text_info">Artist: ' + arr[index].description + '</div>' +
+                                                                            '<div class="text_info">Artist: ' + track.artists[0].name + '</div>' +
                                                                             '<div class="text_info">Category: ' + arr[index].genre[0].name + '</div>' +
                                                                         '</div>' +
                                                                     '</div>';
@@ -90,31 +121,64 @@ if(!isset($_SESSION["user_id"]))
                                                     $('.recently_slide').append(htmlContent);
                                                 }
 
-                                                function initSlickSlider(){
-                                                    console.log("slicked");
+                                                // var recipient;
+                                                // // JavaScript to set modal content
+                                                // $('#addtracktoplaylist').on('show.bs.modal', function (event) {
+                                                //     var button = $(event.relatedTarget); // Button that triggered the modal
+                                                //     recipient = button.data('trackid'); // Extract info from data-* attributes
+                                                //     // Update the modal's content
+                                                //     var modal = $(this);
+                                                //     $('#trackid').attr('value', recipient);
+                                                //     var playlist = $('#playlistBtn').attr("value");
+                                                //     console.log("***" + playlist);
+                                                //     console.log(recipient);
+                                                //     if($('#playlistBtn').on('click',function(){
+                                                //         addTrack(recipient, playlist);
+                                                //     }));
+                                                // });
+                                                // console.log("**" + recipient);
 
-                                                    let recentlyReadMoreAdded = false;
+                                                // function addTrack(trackid, playlistid)
+                                                // {
+                                                //     console.log(trackid + playlistid);
+                                                // }
 
+                                                // function getAllPlaylist() {
+                                                //     console.log("getPlaylist");
+                                                //     datas = [];
+                                                //     let xhr = new XMLHttpRequest();
+                                                //     xhr.open("GET", "<?php echo $domain; ?>/APIs/Playlist/getAllPlaylists.php?mode=user");
+                                                //     xhr.setRequestHeader("Accept", "/");
+                                                //     var data = "";
+                                                //     xhr.onreadystatechange = function () {
+                                                //         if (xhr.readyState === 4 && this.status == 200) {
+                                                //             data = xhr.responseText;
+                                                //             var lists = JSON.parse(data);
+
+                                                //             // console.log(lists["data"]["playlists"]);
+                                                //             lists["data"]["playlists"].forEach(dropPlaylist);
+                                                //         }
+                                                //     };
+                                                //     xhr.send();
+                                                // }
+                                                
+                                                // function dropPlaylist(playlist, index, arr){
+                                                //     console.log(recipient);
+                                                        
+                                                //     var htmlContent = '<div class="main-btn" id="playlistBtn'+index+'" value="'+ playlist.id +'">'+ playlist.name +'</div>';
+
+                                                //     $('.cus_col').append(htmlContent);
+                                                //     //console.log("done");
+                                                // }
+
+                                                function slickTrack(){
                                                     $('.recently_slide').slick({
                                                         infinite: false,
                                                         slidesToShow: 4,
                                                         slidesToScroll: 1,
                                                         edgeFriction: 0.5
                                                     });
-
-                                                    $('.recently_slide').on('edge',function(event, slick, direction){
-                                                        if (!recentlyReadMoreAdded){
-                                                            $('.recently_slide').slick('slickAdd', '<div class="readMore"><a href=""><button class="viewMore_btn">View More</button></a></div>');
-                                                            recentlyReadMoreAdded = true;
-
-                                                            var boxHeight = $(".s_box").height();
-                                                            $(".readMore").css({
-                                                                'height' : boxHeight
-                                                            });
-                                                        }
-                                                    });
                                                 }
-
                                                 
                                             </script>
                                         </div>
@@ -126,257 +190,155 @@ if(!isset($_SESSION["user_id"]))
                                 <div class="container">
                                     <div class="row">
                                         <div class="col-12">
-                                            <div class="big_title">New Album</div>
-                                            <div class="album_slide">
-                                                <div class="s_box">
-                                                    <div class="s_img_wrapper">
-                                                        <img src="https://dummyimage.com/1000x1000/" alt="">
-                                                    </div>
-                                                    <div class="text_wrapper text-center mt-3">
-                                                        <div class="text_info">Demo 1</div>
-                                                        <div class="text_info">Artist: Sample</div>
-                                                        <div class="text_info">Category: J-POP</div>
-                                                    </div>
-                                                </div>
-                                                <div class="s_box">
-                                                    <div class="s_img_wrapper">
-                                                        <img src="https://dummyimage.com/1000x1000/" alt="">
-                                                    </div>
-                                                    <div class="text_wrapper text-center mt-3">
-                                                        <div class="text_info">Demo 2</div>
-                                                        <div class="text_info">Artist: Sample</div>
-                                                        <div class="text_info">Category: J-POP</div>
-                                                    </div>
-                                                </div>
-                                                <div class="s_box">
-                                                    <div class="s_img_wrapper">
-                                                        <img src="https://dummyimage.com/1000x1000/" alt="">
-                                                    </div>
-                                                    <div class="text_wrapper text-center mt-3">
-                                                        <div class="text_info">Demo 3</div>
-                                                        <div class="text_info">Artist: Sample</div>
-                                                        <div class="text_info">Category: J-POP</div>
-                                                    </div>
-                                                </div>
-                                                <div class="s_box">
-                                                    <div class="s_img_wrapper">
-                                                        <img src="https://dummyimage.com/1000x1000/" alt="">
-                                                    </div>
-                                                    <div class="text_wrapper text-center mt-3">
-                                                        <div class="text_info">Demo 4</div>
-                                                        <div class="text_info">Artist: Sample</div>
-                                                        <div class="text_info">Category: J-POP</div>
-                                                    </div>
-                                                </div>
-                                                <div class="s_box">
-                                                    <div class="s_img_wrapper">
-                                                        <img src="https://dummyimage.com/1000x1000/" alt="">
-                                                    </div>
-                                                    <div class="text_wrapper text-center mt-3">
-                                                        <div class="text_info">Demo 5</div>
-                                                        <div class="text_info">Artist: Sample</div>
-                                                        <div class="text_info">Category: J-POP</div>
-                                                    </div>
-                                                </div>
+                                            <div class="title_bar">
+                                                <div class="big_title">Recommended Playlist</div>
+                                                <button class="sub-btn">View More</button>
                                             </div>
+                                            
+                                            <div class="playlist_slide"></div>
                                             <script>
-                                                let albumReadMoreAdded = false;
+                                                getPlaylist();
+                                                
+                                                function getPlaylist() {
+                                                    console.log("getPlaylist");
+                                                    datas = [];
+                                                    let xhr = new XMLHttpRequest();
+                                                    xhr.open("GET", "<?php echo $domain; ?>APIs/Playlist/getAllPlaylists.php");
+                                                    xhr.setRequestHeader("Accept", "/");
+                                                    var data = "";
+                                                    xhr.onreadystatechange = function () {
+                                                        if (xhr.readyState === 4 && this.status == 200) {
+                                                            data = xhr.responseText;
+                                                            var lists = JSON.parse(data);
 
-                                                $('.album_slide').slick({
-                                                    infinite: false,
-                                                    slidesToShow: 3,
-                                                    slidesToScroll: 1,
-                                                    edgeFriction: 0.5
-                                                });
+                                                            lists["data"]["playlists"].forEach(showPlaylist);
+                                                            slickPlaylist();
+                                                        }
+                                                    };
+                                                    xhr.send();
+                                                }
 
-                                                $('.album_slide').on('edge',function(event, slick, direction){
-                                                    if (!albumReadMoreAdded){
-                                                        $('.album_slide').slick('slickAdd', '<div class="readMore"><a href=""><button class="viewMore_btn">View More</button></a></div>');
-                                                        albumReadMoreAdded = true;
+                                                function showPlaylist(playlist, index, arr)
+                                                {
+                                                    var imgPath = "<?php echo $domain . $getImagePath?>" + "\\" + arr[index].path;
+                                                    
+                                                    var htmlContent = '<div class="s_box playlistBox">' +
+                                                                        '<div class="s_img_wrapper">' +
+                                                                            '<img src="' + imgPath + '" alt="">' +
+                                                                            '<i class="fa fa-play" aria-hidden="true"></i>' +
+                                                                        '</div>' +
+                                                                        '<div class="text_wrapper text-center mt-3">' +
+                                                                            '<div class="text_info">' + arr[index].name + '</div>' +
+                                                                            '<div class="text_info">' + arr[index].description + '</div>' +
+                                                                        '</div>' +
+                                                                    '</div>';
 
-                                                        var boxHeight = $(".s_box").height();
-                                                        $(".readMore").css({
-                                                            'height' : boxHeight
-                                                        });
-                                                    }
-                                                });
+                                                    $('.playlist_slide').append(htmlContent);
+                                                }
+
+                                                function slickPlaylist(){
+                                                    $('.playlist_slide').slick({
+                                                        infinite: false,
+                                                        slidesToShow: 3,
+                                                        slidesToScroll: 1,
+                                                        edgeFriction: 0.5
+                                                    });
+                                                }
+                                                
                                             </script>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        
+
                             <div class="index_wrapper_3 pb_sec">
                                 <div class="container">
                                     <div class="row">
                                         <div class="col-12">
-                                            <h1 class="big_title">New Songs</h1>
-                                            <div class="song_slide">
-                                                <div class="s_box">
-                                                    <div class="s_img_wrapper">
-                                                        <img src="https://dummyimage.com/1000x1000/" alt="">
-                                                        <i class="fa fa-play" aria-hidden="true"></i>
-                                                    </div>
-                                                    <div class="text_wrapper text-center mt-3">
-                                                        <div class="text_info">Demo 1</div>
-                                                        <div class="text_info">Artist: Sample</div>
-                                                        <div class="text_info">Category: J-POP</div>
-                                                    </div>
-                                                </div>
-                                                <div class="s_box">
-                                                    <div class="s_img_wrapper">
-                                                        <img src="https://dummyimage.com/1000x1000/" alt="">
-                                                        <i class="fa fa-play" aria-hidden="true"></i>
-                                                    </div>
-                                                    <div class="text_wrapper text-center mt-3">
-                                                        <div class="text_info">Demo 2</div>
-                                                        <div class="text_info">Artist: Sample</div>
-                                                        <div class="text_info">Category: J-POP</div>
-                                                    </div>
-                                                </div>
-                                                <div class="s_box">
-                                                    <div class="s_img_wrapper">
-                                                        <img src="https://dummyimage.com/1000x1000/" alt="">
-                                                        <i class="fa fa-play" aria-hidden="true"></i>
-                                                    </div>
-                                                    <div class="text_wrapper text-center mt-3">
-                                                        <div class="text_info">Demo 3</div>
-                                                        <div class="text_info">Artist: Sample</div>
-                                                        <div class="text_info">Category: J-POP</div>
-                                                    </div>
-                                                </div>
-                                                <div class="s_box">
-                                                    <div class="s_img_wrapper">
-                                                        <img src="https://dummyimage.com/1000x1000/" alt="">
-                                                        <i class="fa fa-play" aria-hidden="true"></i>
-                                                    </div>
-                                                    <div class="text_wrapper text-center mt-3">
-                                                        <div class="text_info">Demo 4</div>
-                                                        <div class="text_info">Artist: Sample</div>
-                                                        <div class="text_info">Category: J-POP</div>
-                                                    </div>
-                                                </div>
-                                                <div class="s_box">
-                                                    <div class="s_img_wrapper">
-                                                        <img src="https://dummyimage.com/1000x1000/" alt="">
-                                                        <i class="fa fa-play" aria-hidden="true"></i>
-                                                    </div>
-                                                    <div class="text_wrapper text-center mt-3">
-                                                        <div class="text_info">Demo 5</div>
-                                                        <div class="text_info">Artist: Sample</div>
-                                                        <div class="text_info">Category: J-POP</div>
-                                                    </div>
-                                                </div>
-                                                <div class="s_box">
-                                                    <div class="s_img_wrapper">
-                                                        <img src="https://dummyimage.com/1000x1000/" alt="">
-                                                        <i class="fa fa-play" aria-hidden="true"></i>
-                                                    </div>
-                                                    <div class="text_wrapper text-center mt-3">
-                                                        <div class="text_info">Demo 6</div>
-                                                        <div class="text_info">Artist: Sample</div>
-                                                        <div class="text_info">Category: J-POP</div>
-                                                    </div>
-                                                </div>
+                                            <div class="title_bar">
+                                                <h1 class="big_title">Top Artist</h1>
+                                                <button class="sub-btn">View More</button>
                                             </div>
+                                            <div class="artist_slide"></div>
                                             <script>
-                                                let songReadMoreAdded = false;
-
-                                                $('.song_slide').slick({
-                                                    infinite: false,
-                                                    slidesToShow: 4,
-                                                    slidesToScroll: 1,
-                                                    edgeFriction: 0.5
-                                                });
-
-                                                $('.song_slide').on('edge',function(event, slick, direction){
-                                                    if (!songReadMoreAdded){
-                                                        $('.song_slide').slick('slickAdd', '<div class="readMore"><a href=""><button class="viewMore_btn">View More</button></a></div>');
-                                                        songReadMoreAdded = true;
-
-                                                        var boxHeight = $(".s_box").height();
-                                                        $(".readMore").css({
-                                                            'height' : boxHeight
-                                                        });
-                                                    }
-                                                });
-                                            </script>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="index_wrapper_4">
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <h1 class="big_title">Your Favourite Artist</h1>
-                                            <div class="artist_slide">
-                                                <div class="s_box rounded">
-                                                    <div class="s_img_wrapper">
-                                                        <img src="https://dummyimage.com/1000x1000/" alt="">
-                                                    </div>
-                                                </div>
-                                                <div class="s_box rounded">
-                                                    <div class="s_img_wrapper">
-                                                        <img src="https://dummyimage.com/1000x1000/" alt="">
-                                                    </div>
-                                                </div>
-                                                <div class="s_box rounded">
-                                                    <div class="s_img_wrapper">
-                                                        <img src="https://dummyimage.com/1000x1000/" alt="">
-                                                    </div>
-                                                </div>
-                                                <div class="s_box rounded">
-                                                    <div class="s_img_wrapper">
-                                                        <img src="https://dummyimage.com/1000x1000/" alt="">
-                                                    </div>
-                                                </div>
-                                                <div class="s_box rounded">
-                                                    <div class="s_img_wrapper">
-                                                        <img src="https://dummyimage.com/1000x1000/" alt="">
-                                                    </div>
-                                                </div>
-                                                <div class="s_box rounded">
-                                                    <div class="s_img_wrapper">
-                                                        <img src="https://dummyimage.com/1000x1000/" alt="">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <script>
-                                                let artistReadMoreAdded = false;
-                                                let boxHeight;
+                                                getArtist();
                                                 
-                                                $('.artist_slide').on('init', function(event, slick){
-                                                    boxHeight = $(".s_box.rounded").height()
+                                                function getArtist() {
+                                                    console.log("getArtist");
+                                                    datas = [];
+                                                    let xhr = new XMLHttpRequest();
+                                                    xhr.open("GET", "<?php echo $domain; ?>/APIs/Artist/getAllArtists.php");
+                                                    xhr.setRequestHeader("Accept", "/");
+                                                    var data = "";
+                                                    xhr.onreadystatechange = function () {
+                                                        if (xhr.readyState === 4 && this.status == 200) {
+                                                            data = xhr.responseText;
+                                                            var lists = JSON.parse(data);
 
-                                                    $(".artist_slide").css({
-                                                        'height' : boxHeight
+                                                            lists["data"]["artists"].forEach(showArtist);
+                                                            slickArtist();
+                                                        }
+                                                    };
+                                                    xhr.send();
+                                                }
+
+                                                function showArtist(artist, index, arr)
+                                                {
+                                                    var imgPath = "<?php echo $domain . $getImagePath?>" + "\\" + arr[index].path;
+                                                    
+                                                    var htmlContent =   '<div class="s_box rounded">' +
+                                                                            '<div class="s_img_wrapper">' +
+                                                                                '<img src="' + imgPath + '" alt="">' +
+                                                                            '</div>' +
+                                                                        '</div>';
+
+                                                    $('.artist_slide').append(htmlContent);
+                                                }
+
+                                                function slickArtist(){
+                                                    $('.artist_slide').slick({
+                                                        infinite: false,
+                                                        slidesToShow: 4,
+                                                        slidesToScroll: 1,
+                                                        edgeFriction: 0.5
                                                     });
-                                                });
-
-                                                $('.artist_slide').slick({
-                                                    infinite: false,
-                                                    slidesToShow: 4,
-                                                    slidesToScroll: 1,
-                                                    edgeFriction: 0.5
-                                                });
-
-                                                $('.artist_slide').on('edge',function(event, slick, direction){
-                                                    if (!artistReadMoreAdded){
-                                                        $('.artist_slide').slick('slickAdd', '<div class="readMore"><a href=""><button class="viewMore_btn">View More</button></a></div>');
-                                                        artistReadMoreAdded = true;
-
-                                                        $(".readMore").css({
-                                                            'height' : boxHeight
-                                                        });
-                                                    }
-                                                });
+                                                }
                                             </script>
                                         </div>
                                     </div>
                                 </div>
-                            </div>                        
+                            </div>      
+                            
+                            <div class="index_wrapper_4">
+                                <h1 class="big_title mb-4">Genres</h1>
+                                <div class="genre-slide"></div>
+                            </div>
+                            <script>
+                                getGenre();
+                                                
+                                function getGenre() {
+                                    console.log("getGenre");
+                                    datas = [];
+                                    let xhr = new XMLHttpRequest();
+                                    xhr.open("GET", "<?php echo $domain; ?>APIs/Genre/getAllGenres.php");
+                                    xhr.setRequestHeader("Accept", "/");
+                                    var data = "";
+                                    xhr.onreadystatechange = function () {
+                                        if (xhr.readyState === 4 && this.status == 200) {
+                                            data = xhr.responseText;
+                                            var lists = JSON.parse(data);
+
+                                            lists["data"]["genres"].forEach(showGenre);
+                                        }
+                                    };
+                                    xhr.send();
+                                }
+
+                                function showGenre(genre, index, arr)
+                                {
+                                    $('.genre-slide').append('<button class="genre_btn">'+ genre.name +'</button>');
+                                }
+                            </script>
                         </div>
                     </div>
 
@@ -414,6 +376,9 @@ if(!isset($_SESSION["user_id"]))
                             'padding-top' : topBarHeight,
                             'padding-bottom' : playerBarHeight
                         });
+
+                        
+
                     });
                 </script>
             </div>

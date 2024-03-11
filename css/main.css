@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 :root {
-    --sidebarWidth: 20%;
+    --sidebarWidth: 15%;
     --mainFontType: 'Inter', sans-serif;
     --sectionSpace: 3rem;
     --mainTextSize: 14px;
@@ -11,7 +11,8 @@
 }
 
 ::-webkit-scrollbar {
-    width: 5px;
+    height: 7px;
+    width: 7px;
 }
 
 ::-webkit-scrollbar-track {
@@ -70,10 +71,11 @@ a {
     top: 0;
     background: #05001E;
     width: var(--sidebarWidth);
+    border-right: 2px solid #ffffff15;
 }
 
 .sidebar_logo {
-    max-width: 50%;
+    max-width: 55%;
     margin: auto;
     margin-bottom: 15px;
 }
@@ -84,10 +86,10 @@ a {
 }
 
 .sidebar_menu ul li {
-    font-size: 21px;
+    font-size: 20px;
     text-transform: uppercase;
     font-weight: 500;
-    margin-bottom: 15px;
+    margin-top: 1.2rem;
     color: #fff;
 }
 
@@ -479,4 +481,41 @@ div#close_search {
 
 .modal-content {
     background-color: #060028 !important;
+}
+
+/* btn */
+button.main-btn {
+    padding: 5px 40px;
+    border-radius: 30px;
+    border: #fff;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-transform: uppercase;
+    font-weight: 500;
+    background: linear-gradient(45deg, #9362b8, #35b8f000);
+    background-color: #35b8f0;
+    color: #fff;
+    transition: all .6s linear;
+}
+
+button.main-btn:hover {
+    background: linear-gradient(60deg, #35b8f0, #9362b800);
+    background-color: #9362b8
+}
+
+button.sub-btn {
+    border-radius: 30px;
+    padding: 5px 30px;
+    background: transparent;
+    color: #fff;
+    border: 2px solid #fff;
+    text-transform: uppercase;
+    font-weight: 500;
+    transition: all .3s linear;
+}
+
+button.sub-btn:hover {
+    background: #fff;
+    color: #1a1a1a;
 }
