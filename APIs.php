@@ -9,7 +9,8 @@ if(isset($_SESSION['user_id']) && isset($_SESSION['user_role_id']))
 }
 else if(!isset($_SESSION['user_id']))
 {
-    echo "Please login";
+    header('Location: login_register.php');
+    exit;
 }
 ?>
 
