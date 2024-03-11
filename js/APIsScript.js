@@ -483,7 +483,8 @@ $(document).ready(function(){
                 var results = JSON.parse(response);
                 if(results.statusCode === 200)
                 {
-                    console.log(results["data"]["tracks"][0].artists[0].name);
+                    console.log(results["data"]["tracks"]);
+                    console.log(results["data"]["totalPages"]);
                 }
                 else
                 {

@@ -15,6 +15,8 @@ if ($_SERVER["REQUEST_METHOD"] === "GET")
 
         // Calculate the offset based on the page number
         $offset = ($page - 1) * $limit;
+
+        $count_query = "SELECT COUNT(*) AS total_records FROM `tracks`";
     
         $query = "SELECT * FROM `tracks`";
 
@@ -32,11 +34,13 @@ if ($_SERVER["REQUEST_METHOD"] === "GET")
         // Append conditions to the main query
         if (!empty($conditions)) {
             $query .= " WHERE " . implode(" AND ", $conditions);
+            $count_query .= " WHERE " . implode(" AND ", $conditions);
         }
 
         $query .= " LIMIT :limit OFFSET :offset";
     
         $stmt = $pdo->prepare($query);
+        $count_stmt = $pdo->prepare($count_query);
 
         $stmt->bindParam(":limit", $limit, PDO::PARAM_INT);
         $stmt->bindParam(":offset", $offset, PDO::PARAM_INT);
@@ -46,10 +50,21 @@ if ($_SERVER["REQUEST_METHOD"] === "GET")
         if (!empty($genreId)) {
             $stmt->bindParam(":genreId", $genreId);
         }
+
+        if (!empty($title)) {
+            $count_stmt->bindParam(":title", $title);
+        }
+        if (!empty($genreId)) {
+            $count_stmt->bindParam(":genreId", $genreId);
+        }
     
         $stmt->execute();
+        $count_stmt->execute();
 
         $data["tracks"] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $totalRecords = $count_stmt->fetch(PDO::FETCH_ASSOC)['total_records'];
+        $totalPages = ceil($totalRecords / $limit);
+        $data["totalPages"] = $totalPages;
 
         if (!empty($data)) {
             if(!empty($modules))

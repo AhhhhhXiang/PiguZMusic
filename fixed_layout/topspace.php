@@ -32,6 +32,7 @@ if($user_info["path"] == null || $user_info["path"] == "")
     </div>
 </div>
 
+<script src="./js/topspace.js"></script>
 <script>
     $(document).ready(function(){
         $("#logout-btn").click(function()
@@ -73,6 +74,7 @@ if($user_info["path"] == null || $user_info["path"] == "")
                         {
                             var trackResult = results["data"]["tracks"];
                             trackResult.forEach(showSearchTrack);
+                            showViewMoreTracks(1, results["data"]["totalPages"], input, '<?php echo $domain . $getImagePath ?>');
                         }
                         else
                         {  
@@ -124,7 +126,7 @@ if($user_info["path"] == null || $user_info["path"] == "")
             }
         });
 
-        function showSearchTrack(track, index, arr)
+        function showSearchTrack(track, index, arr, domain)
         {
             var imgPath = "<?php echo $domain . $getImagePath?>" + "\\" + arr[index].thumbnail_path;
             var trackPath = "<?php echo $domain . $getTrackPath?>" + "\\" + arr[index].music_path;
