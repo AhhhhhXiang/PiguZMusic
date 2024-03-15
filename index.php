@@ -88,6 +88,7 @@ if(!isset($_SESSION["user_id"]))
                                                     var trackPath = "<?php echo $domain . $getTrackPath?>" + "\\" + arr[index].music_path;
 
                                                     $(document).ready(function(){
+                                                        console.log(arr[index]);
                                                         loadMusic(index, imgPath, trackPath, arr[index].id, arr[index].name, arr[index].artists[0].name);
                                                     })  
                                                     
