@@ -46,59 +46,49 @@ if(!isset($_SESSION["user_id"]))
                                             </div>
                                             
                                             <div class="recently_slide"></div>
-
-                                            <!--                                             
-                                            <div class="modal fade" id="addtracktoplaylist" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog modal-dialog-centered">
-                                                    <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="exampleModalLabel">Select a playlist</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <form action="" id="addtoplaylist">
-                                                            <input id="trackid" name="trackid">
-                                                            <div class="cus_col"></div>
-                                                        </form>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                        <button type="button" class="btn btn-primary">Save changes</button>
-                                                    </div>
-                                                    </div>
-                                                </div>
-                                            </div> -->
-
-
+                                            <div class="recently_modals"></div>
                                             <script>
-                                                getTracks();
-                                                getAllPlaylist();
+                                                getDatas();
+                                                function getDatas() {
+                                                    let playlistxhr = new XMLHttpRequest();
+                                                    playlistxhr.open("GET", "<?php echo $domain; ?>APIs/UserPlaylist/getUserPlaylist.php?userId=<?php echo $_SESSION["user_id"] ?>");
+                                                    playlistxhr.setRequestHeader("Accept", "/");
+                                                    var playlistData = "";
+                                                    playlistxhr.onreadystatechange = function () {
+                                                        if (playlistxhr.readyState === 4 && this.status == 200) {
+                                                            playlistData = playlistxhr.responseText;
+                                                            var playlistLists = JSON.parse(playlistData);
+                                                            var playlistResult = playlistLists["data"]["userplaylists"]; // Fixed typo here, should be playlistLists instead of lists
 
-                                                function getTracks() {
-                                                    console.log("getDatas");
-                                                    datas = [];
-                                                    let xhr = new XMLHttpRequest();
-                                                    xhr.open("GET", "<?php echo $domain; ?>APIs/Track/getAllTracks.php?modules[]=genre&modules[]=artist");
-                                                    xhr.setRequestHeader("Accept", "/");
-                                                    var data = "";
-                                                    xhr.onreadystatechange = function () {
-                                                        if (xhr.readyState === 4 && this.status == 200) {
-                                                            data = xhr.responseText;
-                                                            var lists = JSON.parse(data);
+                                                            let xhr = new XMLHttpRequest();
+                                                            xhr.open("GET", "<?php echo $domain; ?>APIs/Track/getAllTracks.php?modules[]=genre&modules[]=artist");
+                                                            xhr.setRequestHeader("Accept", "/");
+                                                            var data = "";
+                                                            xhr.onreadystatechange = function () {
+                                                                if (xhr.readyState === 4 && this.status == 200) {
+                                                                    data = xhr.responseText;
+                                                                    var lists = JSON.parse(data);
+                                                                    console.log(lists);
 
-                                                            lists["data"]["tracks"].forEach(showTracks);
-                                                            slickTrack();
+                                                                    lists["data"]["tracks"].forEach(function(track, index, arr) {
+                                                                        showTracks(track, playlistResult, index, arr);
+                                                                    });
+                                                                    slickTrack();
+                                                                }
+                                                            };
+                                                            xhr.send();
                                                         }
                                                     };
-                                                    xhr.send();
+                                                    playlistxhr.send();
                                                 }
                                                 
-                                                function showTracks(track, index, arr)
+                                                function showTracks(track, playlists, index, arr)
                                                 {
                                                     var imgPath = "<?php echo $domain . $getImagePath?>" + "\\" + arr[index].thumbnail_path;
                                                     var trackPath = "<?php echo $domain . $getTrackPath?>" + "\\" + arr[index].music_path;
 
                                                     $(document).ready(function(){
+                                                        console.log(arr[index]);
                                                         loadMusic(index, imgPath, trackPath, arr[index].id, arr[index].name, arr[index].artists[0].name);
                                                     })  
                                                     
@@ -113,63 +103,64 @@ if(!isset($_SESSION["user_id"]))
                                                                         '</div>' +
                                                                         '<div class="text_wrapper text-center mt-3">' +
                                                                             '<div class="text_info">' + arr[index].name + '</div>' +
-                                                                            '<div class="text_info">Artist: ' + track.artists[0].name + '</div>' +
                                                                             '<div class="text_info">Category: ' + arr[index].genre[0].name + '</div>' +
+                                                                            '<div class="text-info"><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal-'+arr[index].id+'">+</button></div>'+
                                                                         '</div>' +
                                                                     '</div>';
+                                                    
+                                                    var trackModal = '<div class="modal fade" id="exampleModal-'+arr[index].id+'" tabindex="-1" aria-labelledby="exampleModalLabel-'+arr[index].id+'" aria-hidden="true">' +
+                                                                        '<div class="modal-dialog">' +
+                                                                            '<div class="modal-content">' +
+                                                                            '<div class="modal-header">' +
+                                                                                '<h1 class="modal-title fs-5" id="exampleModalLabel-'+arr[index].id+'">Save to playlist</h1>' +
+                                                                                '<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>' +
+                                                                            '</div>' +
+                                                                            '<div class="modal-body">' +
+                                                                            '<p>All playlist</p>'+
+                                                                            '<input type="hidden" value="'+arr[index].id+'">'+
+                                                                            '<div>'+
+                                                                            playlists.map(function(element) {
+                                                                                return '<span class="btn btn-default btn-playlist" onclick="addTrackToPlaylist(\''+element.playlist.id+'\', \''+arr[index].id+'\')">' + element.playlist.name + '</span>';
+                                                                            }).join('') +
+                                                                            '</div>'+
+                                                                            '<input type="hidden" id="playlistInput">'+
+                                                                            '</div>' +
+                                                                            '<div class="modal-footer">' +
+                                                                            '</div>' +
+                                                                            '</div>' +
+                                                                        '</div>' +
+                                                                    '</div>'
 
                                                     $('.recently_slide').append(htmlContent);
+                                                    $('.recently_modals').append(trackModal);
                                                 }
 
-                                                // var recipient;
-                                                // // JavaScript to set modal content
-                                                // $('#addtracktoplaylist').on('show.bs.modal', function (event) {
-                                                //     var button = $(event.relatedTarget); // Button that triggered the modal
-                                                //     recipient = button.data('trackid'); // Extract info from data-* attributes
-                                                //     // Update the modal's content
-                                                //     var modal = $(this);
-                                                //     $('#trackid').attr('value', recipient);
-                                                //     var playlist = $('#playlistBtn').attr("value");
-                                                //     console.log("***" + playlist);
-                                                //     console.log(recipient);
-                                                //     if($('#playlistBtn').on('click',function(){
-                                                //         addTrack(recipient, playlist);
-                                                //     }));
-                                                // });
-                                                // console.log("**" + recipient);
+                                                function addTrackToPlaylist(playlistId, trackId)
+                                                {
+                                                    $('#playlistInput').val(playlistId);
+                                                    var data = 
+                                                    {
+                                                        playlistId: playlistId,
+                                                        trackId: trackId
+                                                    }
 
-                                                // function addTrack(trackid, playlistid)
-                                                // {
-                                                //     console.log(trackid + playlistid);
-                                                // }
+                                                    var formData = new FormData();
+                                                    for (var item in data) {
+                                                        formData.append(item, data[item]);
+                                                    }
 
-                                                // function getAllPlaylist() {
-                                                //     console.log("getPlaylist");
-                                                //     datas = [];
-                                                //     let xhr = new XMLHttpRequest();
-                                                //     xhr.open("GET", "<?php echo $domain; ?>/APIs/Playlist/getAllPlaylists.php?mode=user");
-                                                //     xhr.setRequestHeader("Accept", "/");
-                                                //     var data = "";
-                                                //     xhr.onreadystatechange = function () {
-                                                //         if (xhr.readyState === 4 && this.status == 200) {
-                                                //             data = xhr.responseText;
-                                                //             var lists = JSON.parse(data);
-
-                                                //             // console.log(lists["data"]["playlists"]);
-                                                //             lists["data"]["playlists"].forEach(dropPlaylist);
-                                                //         }
-                                                //     };
-                                                //     xhr.send();
-                                                // }
-                                                
-                                                // function dropPlaylist(playlist, index, arr){
-                                                //     console.log(recipient);
-                                                        
-                                                //     var htmlContent = '<div class="main-btn" id="playlistBtn'+index+'" value="'+ playlist.id +'">'+ playlist.name +'</div>';
-
-                                                //     $('.cus_col').append(htmlContent);
-                                                //     //console.log("done");
-                                                // }
+                                                    $.ajax({
+                                                        url:"./APIs/PlaylistTrack/createPlaylistTrack.php",
+                                                        method:"POST",
+                                                        data:formData,
+                                                        contentType: false,
+                                                        processData: false,
+                                                        success:function(response)
+                                                        {
+                                                            location.href = "playlist.php";
+                                                        }
+                                                    });
+                                                }
 
                                                 function slickTrack(){
                                                     $('.recently_slide').slick({
